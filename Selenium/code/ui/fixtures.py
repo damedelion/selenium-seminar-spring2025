@@ -1,10 +1,12 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
+#from ...code.test_login import LoginPage
 
 
 @pytest.fixture()
@@ -27,7 +29,10 @@ def driver(config):
             desired_capabilities=capabilities
         )
     elif browser == 'chrome':
-        driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        service = Service()
+        options = webdriver.ChromeOptions()
+        options.add_argument("--window-size=1920,1080")
+        driver = webdriver.Chrome(service = service, options = options)
     elif browser == 'firefox':
         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
@@ -40,7 +45,9 @@ def driver(config):
 
 def get_driver(browser_name):
     if browser_name == 'chrome':
-        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        service = Service()
+        options = webdriver.ChromeOptions()
+        driver = webdriver.Chrome(service = service, options = options)
     elif browser_name == 'firefox':
         browser = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
@@ -66,3 +73,7 @@ def base_page(driver):
 @pytest.fixture
 def main_page(driver):
     return MainPage(driver=driver)
+
+""" @pytest.fixture
+def login_page(driver):
+    return LoginPage(driver=driver) """

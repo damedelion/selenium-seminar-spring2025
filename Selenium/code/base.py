@@ -4,6 +4,7 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
+from test_login import LoginPage
 
 CLICK_RETRY = 3
 
