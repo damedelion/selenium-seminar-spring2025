@@ -39,10 +39,8 @@ class LoginPage(BasePage):
     def login(self, user, password):
         self.click(self.locators.AUTH_HEADER_BUTTON)
         self.click(self.locators.SIGNUP_MODAL_LINK)
-        email_input = self.find(self.locators.EMAIL_INPUT)
-        email_input.send_keys(user)
-        password_input = self.find(self.locators.PASSWORD_INPUT)
-        password_input.send_keys(password)
+        self.find(self.locators.EMAIL_INPUT).send_keys(user)
+        self.find(self.locators.PASSWORD_INPUT).send_keys(password)
         self.click(self.locators.LOGIN_BUTTON)
         self.wait(5)
         return MainPage(self.driver)
@@ -55,8 +53,7 @@ class MainPage(BasePage):
 
     def search_student(self, name):
         self.click(self.locators.PEOPLE_LINK)
-        input_text = self.find(self.locators.INPUT_TEXT)
-        input_text.send_keys(name)
+        self.find(self.locators.INPUT_TEXT).send_keys(name)
         return MainPage(self.driver)
     
     def search_lesson(self, name):
@@ -71,8 +68,8 @@ class TestLogin(BaseCase):
 
     def test_login(self, credentials):
         self.login_page.login(credentials['email'], credentials['password'])
-        self.login_page.wait(5)
-        assert self.login_page.current_url == "https://education.vk.company/feed/"
+        self.wait(5)
+        assert self.driver.current_url == "https://education.vk.company/feed/"
 
 
 class TestStudentSearch(BaseCase):
